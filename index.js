@@ -21,7 +21,6 @@ dbConnection();
 
 
 // Rutas
-app.use( '/', require('./public/index.html') );
 
 app.use( '/api/usuarios', require('./routes/usuarios') );
 app.use( '/api/incomes', require('./routes/incomes') );
