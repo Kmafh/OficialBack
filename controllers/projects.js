@@ -4,11 +4,20 @@ const Project = require('../models/project');
 
 const getProjects = async(req, res = response) => {
     const uid = req.params.uid;
-    const projects = await Project.find({ uid: uid })
-    res.json({
-        ok: true,
-        projects
-    })
+    
+    try {
+        const projects = await Project.find({ uid: uid })
+        res.json({
+            ok: true,
+            projects
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getProjectById = async(req, res = response) => {

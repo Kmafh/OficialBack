@@ -4,11 +4,20 @@ const Alert = require('../models/alert');
 
 const getAlerts = async(req, res = response) => {
     const uid = req.params.uid;
-    const alerts = await Alert.find({ uid: uid })
-    res.json({
-        ok: true,
-        alerts
-    })
+    try {
+        const alerts = await Alert.find({ uid: uid })
+        res.json({
+            ok: true,
+            alerts
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+    
 }
 
 const getAlertById = async(req, res = response) => {

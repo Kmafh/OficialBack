@@ -7,20 +7,30 @@ const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async(req, res) => {
     const desde = Number(req.query.desde) || 0;
-    const [ usuarios, total ] = await Promise.all([
-        Usuario
-            .find({ active: true }, 'name email role google img fondo')
-            .skip( desde )
-            .limit( 5 ),
 
-        Usuario.countDocuments()
-    ]);
-
-    res.json({
-        ok: true,
-        usuarios,
-        total
-    });
+    try {
+        const [ usuarios, total ] = await Promise.all([
+            Usuario
+                .find({ active: true }, 'name email role google img fondo')
+                .skip( desde )
+                .limit( 5 ),
+    
+            Usuario.countDocuments()
+        ]);
+    
+        res.json({
+            ok: true,
+            usuarios,
+            total
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+    
 }
 
 const getUsuario = async (req, res = response) => {

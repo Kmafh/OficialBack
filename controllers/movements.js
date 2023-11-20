@@ -4,11 +4,20 @@ const Movement = require('../models/movement');
 
 const getMovements = async(req, res = response) => {
     const uid = req.params.uid;
-    const movements = await Movement.find({ uid: uid })
-    res.json({
-        ok: true,
-        movements
-    })
+    
+    try {
+        const movements = await Movement.find({ uid: uid })
+        res.json({
+            ok: true,
+            movements
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getMovementById = async(req, res = response) => {

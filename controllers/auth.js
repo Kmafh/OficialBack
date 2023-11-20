@@ -124,16 +124,26 @@ const sendMail = async( req, res = response ) => {
 }
 
 const renewToken = async(req, res = response) => {
-    const uid = req.uid;
-    // Generar el TOKEN - JWT
-    const token = await generarJWT( uid );
-    // Obtener el usuario por UID
-    const usuario = await Usuario.findById( uid );
-    res.json({
-        ok: true,
-        token,
-        usuario
-    });
+
+    try {
+        const uid = req.uid;
+        // Generar el TOKEN - JWT
+        const token = await generarJWT( uid );
+        // Obtener el usuario por UID
+        const usuario = await Usuario.findById( uid );
+        res.json({
+            ok: true,
+            token,
+            usuario
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+    
 }
 
 module.exports = {

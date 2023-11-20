@@ -4,13 +4,19 @@ const Saving = require('../models/saving');
 
 const getSavings = async(req, res = response) => {
     const uid = req.params.uid;
-    const savings = await Saving.find({ uid: uid })
-
-
-    res.json({
-        ok: true,
-        savings
-    })
+    try {
+        const savings = await Saving.find({ uid: uid })
+        res.json({
+            ok: true,
+            savings
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getSavingById = async(req, res = response) => {

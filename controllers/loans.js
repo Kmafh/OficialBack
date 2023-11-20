@@ -4,11 +4,20 @@ const Loan = require('../models/loan');
 
 const getLoans = async(req, res = response) => {
     const uid = req.params.uid;
-    const loans = await Loan.find({ uid: uid })
-    res.json({
-        ok: true,
-        loans
-    })
+    
+    try {
+        const loans = await Loan.find({ uid: uid })
+        res.json({
+            ok: true,
+            loans
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getLoanById = async(req, res = response) => {

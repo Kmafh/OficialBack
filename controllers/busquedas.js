@@ -7,19 +7,27 @@ const getTodo = async(req, res = response ) => {
 
     const busqueda = req.params.busqueda;
     const regex = new RegExp( busqueda, 'i' );
-
-    const [ usuarios, medicos, hospitales ] = await Promise.all([
-        Usuario.find({ name: regex }),
-        Medico.find({ name: regex }),
-        Hospital.find({ name: regex }),
-    ]);
-
-    res.json({
-        ok: true,
-        usuarios,
-        medicos,
-        hospitales
-    })
+    try {
+        const [ usuarios, medicos, hospitales ] = await Promise.all([
+            Usuario.find({ name: regex }),
+            Medico.find({ name: regex }),
+            Hospital.find({ name: regex }),
+        ]);
+    
+        res.json({
+            ok: true,
+            usuarios,
+            medicos,
+            hospitales
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+    
 
 }
 

@@ -4,11 +4,20 @@ const Income = require('../models/income');
 
 const getIncomes = async(req, res = response) => {
     const uid = req.params.uid;
-    const incomes = await Income.find({ uid: uid })
-    res.json({
-        ok: true,
-        incomes
-    })
+    
+    try {
+        const incomes = await Income.find({ uid: uid })
+        res.json({
+            ok: true,
+            incomes
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getIncomeById = async(req, res = response) => {

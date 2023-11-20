@@ -4,11 +4,20 @@ const Friend = require('../models/friend');
 
 const getFriends = async(req, res = response) => {
     const uid = req.params.uid;
-    const friends = await Friend.find({ uid: uid })
-    res.json({
-        ok: true,
-        friends
-    })
+    
+    try {
+        const friends = await Friend.find({ uid: uid })
+        res.json({
+            ok: true,
+            friends
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 const getFriendById = async(req, res = response) => {
