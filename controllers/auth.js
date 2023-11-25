@@ -5,6 +5,7 @@ const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
 const { transporter } = require('../helpers/email');
+const { sendMailVerification } = require('../services/mail.services');
 
 
 const login = async( req, res = response ) => {
@@ -79,6 +80,9 @@ const googleSignIn = async( req, res = response ) => {
         });
     }
 }
+// Envio email
+        // 
+
 
 const sendMail = async( req, res = response ) => {
     const { email, password, name } = req.body;
@@ -101,15 +105,8 @@ const sendMail = async( req, res = response ) => {
                 msg: 'Contraseña no válida'
             });
         }
-        // Envio email
-        await transporter.sendMail({
-            from: '"Registro Vaidno Pro 👻" <artadapt@gmail.com>', // sender address
-            to: `${name}`, // list of receivers
-            subject: "Registro Vaidno Pro 👻", // Subject line
-            html: `<b>Estas a un paso de unirte a Vaidno. Pincha en el este enlace para confirmar el registro.</b>"
-            +"<a href='${verificationLink}/register?name:${name}?email:${email}?password:${validPassword}'>${verificationLink}</a>`, // html body
-          });
-
+       const mail = await sendMailVerification(email,"TOken de prueba")
+              
         res.json({
             ok: true,
             token
